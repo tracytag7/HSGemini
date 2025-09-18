@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini 101 for HealthSPORT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Ocean Breeze" - A calm and professional palette using shades of teal, cool grays, and a warm sand accent. -->
+    <!-- Application Structure Plan: The application replaces the linear slide deck with a more flexible, tab-based navigation ("Introduction", "Prompting Basics", "Examples", "Pro Tips"). This structure allows users to learn at their own pace and jump to relevant sections. The core of the app is the "Interactive Prompt Builder" in the "Prompting Basics" section. This tool visually demonstrates how the four key ingredients (Persona, Task, Context, Format) combine to create a powerful prompt, making an abstract concept tangible and easy to grasp. This user-centric, interactive design is superior to a static presentation for educational content, as it encourages exploration and reinforces learning through doing. -->
+    <!-- Visualization & Content Choices: Report Info: The slide deck's core content is a tutorial on writing Gemini prompts. -> Goal: Teach users the components of a good prompt and show practical examples. -> Viz/Presentation Method: An interactive "Prompt Builder" using HTML/CSS and vanilla JavaScript. Role-specific examples are presented in a grid of clickable cards. -> Interaction: Users click buttons in the Prompt Builder to see different examples dynamically assemble. They can click on the example cards to reveal a simulated "Gemini Response". -> Justification: This interactive approach actively engages the user, improving comprehension and retention compared to passively reading static text. It turns a lesson into a hands-on tool. -> Library/Method: Vanilla JavaScript for all interactions. Tailwind CSS for styling. No charts are needed as the source is textual. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            color: #14B8A6; /* Teal-500 */
+            border-bottom-color: #14B8A6;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .prompt-part {
+            transition: all 0.3s ease-in-out;
+            min-height: 100px;
+        }
+        .example-card {
+            transition: all 0.3s ease;
+        }
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-600">Gemini 101</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-2">An Interactive Introduction for the HealthSPORT Team</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-gray-300 mb-8">
+            <button class="nav-button py-4 px-6 text-base md:text-lg font-medium text-gray-600 border-b-2 border-transparent hover:text-teal-500 active" data-target="intro">Introduction</button>
+            <button class="nav-button py-4 px-6 text-base md:text-lg font-medium text-gray-600 border-b-2 border-transparent hover:text-teal-500" data-target="basics">Prompting Basics</button>
+            <button class="nav-button py-4 px-6 text-base md:text-lg font-medium text-gray-600 border-b-2 border-transparent hover:text-teal-500" data-target="examples">Examples in Action</button>
+            <button class="nav-button py-4 px-6 text-base md:text-lg font-medium text-gray-600 border-b-2 border-transparent hover:text-teal-500" data-target="tips">Pro Tips</button>
+        </nav>
+
+        <main>
+            <section id="intro" class="content-section active animate-fade-in">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-3xl font-bold text-teal-600 mb-4">What is Gemini?</h2>
+                    <p class="mb-6 text-lg">Think of Gemini as your creative partner and smart assistant, built by Google. It's a powerful chat tool that can help you brainstorm ideas, write content, answer questions, and organize information. You can have a conversation with it to get exactly what you need. It's now part of our new Google Workspace toolkit!</p>
+
+                    <div class="w-full h-px bg-gray-200 my-8"></div>
+                    
+                    <h2 class="text-3xl font-bold text-teal-600 mb-4">Why Use Gemini at HealthSPORT?</h2>
+                    <p class="mb-6 text-lg">Gemini can help us work smarter, not harder. This section provides an overview of how our team can leverage Gemini to enhance productivity and creativity in our daily tasks. By automating routine work and sparking new ideas, we can focus more on providing the best experience for our members.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-teal-700">Member Engagement</h3>
+                            <p class="text-gray-700">Drafting motivational emails and check-ins for clients.</p>
+                        </div>
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-teal-700">Marketing & Social Media</h3>
+                            <p class="text-gray-700">Brainstorming ideas for Instagram posts or club events.</p>
+                        </div>
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-teal-700">Program Development</h3>
+                            <p class="text-gray-700">Creating outlines for new fitness challenges or workshops.</p>
+                        </div>
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-teal-700">Member Services</h3>
+                            <p class="text-gray-700">Writing clear, friendly responses to member inquiries.</p>
+                        </div>
+                         <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-teal-700">Planning & Admin</h3>
+                            <p class="text-gray-700">Outlining agendas for team meetings or staff training.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="basics" class="content-section">
+                 <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-3xl font-bold text-teal-600 mb-2">The Secret to Great Results: A Great Prompt!</h2>
+                    <p class="mb-8 text-lg">Using Gemini is like having a conversation. The key is to give clear instructions, which we call "prompts." A great prompt has four key ingredients. Use the interactive builder below to see how they come together. Select an example to see how a complete prompt is constructed for different tasks at our club.</p>
+
+                    <div class="mb-6 text-center">
+                        <span class="font-medium mr-4">Select an Example:</span>
+                        <button class="prompt-builder-btn bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full text-sm" data-prompt="trainer">Personal Trainer</button>
+                        <button class="prompt-builder-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm" data-prompt="desk">Front Desk</button>
+                        <button class="prompt-builder-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm" data-prompt="marketing">Marketing</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-gray-700">1. Persona <span class="text-teal-500">(Who?)</span></h3>
+                            <p id="persona-text" class="prompt-part text-gray-600"></p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-gray-700">2. Task <span class="text-orange-500">(What?)</span></h3>
+                            <p id="task-text" class="prompt-part text-gray-600"></p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-gray-700">3. Context <span class="text-purple-500">(Details?)</span></h3>
+                            <p id="context-text" class="prompt-part text-gray-600"></p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-gray-700">4. Format <span class="text-pink-500">(How?)</span></h3>
+                            <p id="format-text" class="prompt-part text-gray-600"></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-sand-50 border-l-4 border-teal-500 p-6 rounded-lg">
+                         <h3 class="font-bold text-xl mb-2 text-teal-700">Complete Prompt:</h3>
+                         <p id="full-prompt" class="text-gray-800 text-lg leading-relaxed"></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="examples" class="content-section">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-3xl font-bold text-teal-600 mb-2">Examples in Action</h2>
+                    <p class="mb-8 text-lg">This section contains practical, role-specific examples for our team. Click on any card to see a complete prompt and a simulated response from Gemini. These examples are designed to inspire you and provide a starting point for integrating Gemini into your own workflow at HealthSPORT.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="example-card bg-white p-6 rounded-lg shadow-md border border-gray-200 cursor-pointer" data-example="desk-example">
+                            <h3 class="font-bold text-xl text-teal-700 mb-2">For the Front Desk Team</h3>
+                            <p class="text-gray-600">Quickly answer a member's question about a class.</p>
+                            <div id="desk-example-content" class="hidden mt-4 pt-4 border-t border-gray-200">
+                                <p class="font-semibold text-gray-800">Prompt:</p>
+                                <p class="text-sm text-gray-700 mb-3">"You are a helpful HealthSPORT front desk associate. A member wants to know what they should bring to their first hot yoga class. Draft a friendly, short email explaining they should bring a mat, a towel, and a water bottle, and that we have mats and towels available to rent."</p>
+                                <p class="font-semibold text-gray-800">Simulated Response:</p>
+                                <blockquote class="text-sm text-gray-700 border-l-4 border-teal-200 pl-4 italic">"Hi [Member Name], We're so excited for you to join our hot yoga class! To be most comfortable, we recommend bringing a yoga mat, a full water bottle, and a towel. If you forget anything, no worries! We have mats and towels available to rent at the front desk. See you on the mat!"</blockquote>
+                            </div>
+                        </div>
+                        <div class="example-card bg-white p-6 rounded-lg shadow-md border border-gray-200 cursor-pointer" data-example="trainer-example">
+                            <h3 class="font-bold text-xl text-teal-700 mb-2">For Our Personal Trainers</h3>
+                            <p class="text-gray-600">Brainstorm healthy snack ideas for a client.</p>
+                             <div id="trainer-example-content" class="hidden mt-4 pt-4 border-t border-gray-200">
+                                <p class="font-semibold text-gray-800">Prompt:</p>
+                                <p class="text-sm text-gray-700 mb-3">"I'm a personal trainer. My client needs ideas for healthy, high-protein snacks they can eat after a workout. They are not a fan of protein shakes. Brainstorm a list of 10 easy-to-prepare snack ideas. Format this as a bulleted list."</p>
+                                <p class="font-semibold text-gray-800">Simulated Response:</p>
+                                <blockquote class="text-sm text-gray-700 border-l-4 border-teal-200 pl-4 italic">Here are 10 easy, high-protein snack ideas:
+                                    <ul>
+                                        <li>• Greek yogurt with berries</li>
+                                        <li>• Cottage cheese with sliced peaches</li>
+                                        <li>• A handful of almonds or walnuts</li>
+                                        <li>• Hard-boiled eggs</li>
+                                        <li>• Edamame (steamed and salted)</li>
+                                        <li>...and more!</li>
+                                    </ul>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="example-card bg-white p-6 rounded-lg shadow-md border border-gray-200 cursor-pointer" data-example="marketing-example">
+                            <h3 class="font-bold text-xl text-teal-700 mb-2">For Marketing & Management</h3>
+                            <p class="text-gray-600">Create content for our social media.</p>
+                            <div id="marketing-example-content" class="hidden mt-4 pt-4 border-t border-gray-200">
+                                <p class="font-semibold text-gray-800">Prompt:</p>
+                                <p class="text-sm text-gray-700 mb-3">"Brainstorm 5 ideas for an Instagram Reel to promote HealthSPORT's 'Fall Fitness Challenge.' For each idea, provide a brief description of the video concept and a catchy caption with relevant hashtags like #HealthSPORT #FitnessChallenge #FallFit."</p>
+                                <p class="font-semibold text-gray-800">Simulated Response:</p>
+                                <blockquote class="text-sm text-gray-700 border-l-4 border-teal-200 pl-4 italic">**Idea 1: Trainer Tip Tuesday**
+                                    <ul>
+                                        <li>**Video:** A quick 15-second demo of a key exercise from the challenge.</li>
+                                        <li>**Caption:** Level up your leg day! 🔥 Try these goblet squats, one of the foundational moves in our Fall Fitness Challenge. Ready to join? Link in bio! #HealthSPORT ...</li>
+                                    </ul>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tips" class="content-section">
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                     <h2 class="text-3xl font-bold text-teal-600 mb-4">Pro Tips for Success</h2>
+                     <p class="mb-8 text-lg">Ready to become a prompter? This section covers key best practices to get the most out of Gemini. Remember to experiment and refine your approach; prompting is a skill that improves with practice. The goal is to make Gemini a seamless part of your creative and productive process.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2">Make it a Conversation!</h3>
+                            <p class="mb-4">Don't stop after the first prompt! If the result isn't perfect, just ask Gemini to change it. This iterative process is key.</p>
+                            <p class="font-semibold text-gray-800">Your Follow-up Prompt:</p>
+                            <blockquote class="text-sm text-gray-700 border-l-4 border-teal-200 pl-4 italic">"That's a great start. Can you swap out the lunges for a different leg exercise? And add a short warm-up routine for each day."</blockquote>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                             <h3 class="font-bold text-xl mb-2">Quick Tips</h3>
+                             <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                 <li><span class="font-semibold">Use Natural Language:</span> Just talk to it like you would a person.</li>
+                                 <li><span class="font-semibold">Be Specific:</span> More detail is better than less. Aim for ~20 words.</li>
+                                 <li><span class="font-semibold">Experiment!</span> Try different personas, tones, and formats.</li>
+                                 <li><span class="font-semibold">Review & Edit:</span> Always check Gemini's output for accuracy and make it your own. It's a tool to *assist* you, not replace you.</li>
+                             </ul>
+                        </div>
+                    </div>
+                     <div class="text-center bg-teal-600 text-white p-8 rounded-lg">
+                         <h3 class="text-3xl font-bold mb-4">Time to Practice!</h3>
+                         <p class="text-lg mb-6">The best way to learn is by doing. Open Gemini and try writing a prompt for a task you do every week!</p>
+                         <a href="https://gemini.google.com" target="_blank" class="bg-white text-teal-600 font-bold py-3 px-6 rounded-full hover:bg-gray-100 transition-colors">Go to gemini.google.com</a>
+                     </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const contentSections = document.querySelectorAll('.content-section');
+            const promptBuilderBtns = document.querySelectorAll('.prompt-builder-btn');
+            const exampleCards = document.querySelectorAll('.example-card');
+
+            const promptData = {
+                trainer: {
+                    persona: "Act as a certified personal trainer.",
+                    task: "Create a 4-week workout plan.",
+                    context: "For a new club member in their 30s whose goal is to build strength and has access to dumbbells and resistance bands. They can work out 3 days a week.",
+                    format: "Organize the plan in a simple table with columns for Day, Exercise, Sets, and Reps."
+                },
+                desk: {
+                    persona: "You are a helpful HealthSPORT front desk associate.",
+                    task: "Draft a friendly, short email explaining what a member should bring to their first hot yoga class.",
+                    context: "The member is new and wants to know what to bring. Mention they need a mat, towel, and water, but also that we offer rentals.",
+                    format: "Write the response as a short, professional email."
+                },
+                marketing: {
+                    persona: "You are a creative social media manager for a fitness club.",
+                    task: "Brainstorm 5 ideas for an Instagram Reel.",
+                    context: "The goal is to promote HealthSPORT's 'Fall Fitness Challenge.' The tone should be energetic and motivational.",
+                    format: "For each idea, provide a brief video concept, a catchy caption, and relevant hashtags."
+                }
+            };
+
+            function updatePromptBuilder(promptKey) {
+                const data = promptData[promptKey];
+                const personaEl = document.getElementById('persona-text');
+                const taskEl = document.getElementById('task-text');
+                const contextEl = document.getElementById('context-text');
+                const formatEl = document.getElementById('format-text');
+                const fullPromptEl = document.getElementById('full-prompt');
+
+                personaEl.textContent = data.persona;
+                taskEl.textContent = data.task;
+                contextEl.textContent = data.context;
+                formatEl.textContent = data.format;
+                
+                fullPromptEl.innerHTML = `
+                    <span class="font-semibold text-teal-600">${data.persona}</span>
+                    <span class="font-semibold text-orange-600">${data.task}</span>
+                    <span class="text-gray-700">${data.context}</span>
+                    <span class="font-semibold text-pink-600">${data.format}</span>
+                `;
+
+                promptBuilderBtns.forEach(btn => {
+                    if (btn.dataset.prompt === promptKey) {
+                        btn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                        btn.classList.add('bg-teal-500', 'hover:bg-teal-600');
+                    } else {
+                        btn.classList.remove('bg-teal-500', 'hover:bg-teal-600');
+                        btn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                    }
+                });
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            promptBuilderBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    updatePromptBuilder(button.dataset.prompt);
+                });
+            });
+
+            exampleCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const contentId = card.dataset.example + '-content';
+                    const contentElement = document.getElementById(contentId);
+                    contentElement.classList.toggle('hidden');
+                });
+            });
+
+            updatePromptBuilder('trainer');
+        });
+    </script>
+</body>
+</html>
